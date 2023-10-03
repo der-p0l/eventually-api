@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.1.0
+    container_name: eventually-db
+    volumes:
+      - ./data/:/var/lib/mysql
+    ports:
+      - 9906:3306
+    environment:
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    networks:
+      - eventually-api
+
+  api:
+    image: eventually-api
+    build:
+      context: ./
+    container_name: eventually-api
+    depends_on:
+      - mysql
+    volumes:
+      - .:/app
+    command: dumb-init npm run dev
+    ports:
+      - 80:80
+    networks:
+      - eventually-api
+
+  adminer:
+    image: adminer:4.8.1
+    container_name: eventually-db-admin
+    depends_on:
+      - mysql
+    environment:
+      ADMINER_DEFAULT_SERVER: ${DB_HOST}
+    ports:
+      - 8000:8080
+    networks:
+      - eventually-api
+
+networks:
+  eventually-api:
