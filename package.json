@@ -2,13 +2,14 @@
   "name": "eventually-api",
   "version": "1.0.0",
   "description": "An event management API built with DDD architecture",
-  "main": "src/server.ts",
+  "main": "src/index.ts",
   "scripts": {
-    "dev": "NODE_ENV=development nodemon -L ./src/server.ts"
+    "dev": "NODE_ENV=development nodemon -L ./src/index.ts"
   },
   "author": "Eduardo Paul Contardi Soria",
   "license": "MIT",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
